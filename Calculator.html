@@ -3,52 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>ID Logistics</title>
+    <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGxVJrVD_vOmHkOuCdoboRThlbh_GBDyp0Fk8MiCUpQYf67N9RBGNnhnrEwbh6nS6cSpw&usqp=CAU" type="image/x-icon">
-    <style>
-        body {
-            background-color: #000;
-            color: #0f0; /* зелений текст */
-            font-family: Arial, sans-serif;
-            max-width: 250px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-
-        input, button {
-            padding: 10px;
-            margin: 5px 0;
-            width: 100%;
-            background-color: #333;
-            color: #0f0;
-            border: none;
-            border-radius: 5px;
-        }
-
-        input::placeholder {
-            color: #0f0;
-            opacity: 0.5;
-        }
-
-        button:hover {
-            background-color: #555;
-            cursor: pointer;
-        }
-
-        #result {
-            font-weight: bold;
-            margin-top: 15px;
-            color: rgb(255, 0, 0);
-        }
-
-        label {
-            margin-top: 10px;
-            display: block;
-        }
-    </style>
 </head>
 <body>
-
-    <h2>Калькулятор : ID Logistics</h2>
+    <div id="sidebar" class="sidebar">
+        <button id="closeMenu" class="close-btn">✖</button>
+        <ul>
+          <li>Як Вписувати Години</li>
+          <li>Якшо Ви Робили</li>
+          <li>12 Вписуйте 11</li>
+          <li>10 Вписуйте 9</li>
+          <li>8 Вписуйте 7,5</li>
+          <li>4 Вписуйте 4</li>
+        </ul>
+      </div>
+    <h2>Калькулятор : ID Logistics</h2><button id="openMenu" class="info">Info ?</button>
 
     <label>Години роботи:</label>
     <input type="number" id="hoursWorked" step="0.1" placeholder="Введіть години">
@@ -70,7 +40,7 @@
     <button onclick="calculateProductivity()">Обчислити</button>
 
     <div id="result"></div>
-
+    <script src="script.js"></script>
     <script>
         const standards = {
             cartons: 150,
@@ -103,12 +73,19 @@
                     calculate(market, standards.market) +
                     calculate(boxing, standards.boxing);
 
-                resultDiv.innerText = `Загальна продуктивність: ${totalProductivity.toFixed(2)}%`;
-            } catch (error) {
+                    let message = `Загальна продуктивність: ${totalProductivity.toFixed(2)}%`;
+
+                    if (totalProductivity < 80) {
+                    message += "\n⚠️ Хаха Лох!";
+                    } else if (totalProductivity > 140) {
+                    message += "\n⚠️ Насосав!";
+                    }
+
+                    resultDiv.innerText = message;
+                } catch (error) {
                 resultDiv.innerText = "Помилка: " + error.message;
             }
         }
     </script>
-
 </body>
 </html>
