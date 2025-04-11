@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Калькулятор Продуктивності</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0; /* зелений текст */
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+            background-color: #333; /* сірий фон */
+            color: #0f0; /* зелений текст */
+            border: none;
+            border-radius: 5px;
+        }
+
+        input::placeholder {
+            color: #0f0;
+            opacity: 0.5;
+        }
+
+        button:hover {
+            background-color: #555;
+            cursor: pointer;
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 15px;
+            color: #0f0;
+        }
+
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Калькулятор Продуктивності</h2>
+
+    <label>Години роботи:</label>
+    <input type="number" id="hoursWorked" step="0.1" placeholder="Введіть години">
+
+    <label>Картон:</label>
+    <input type="number" id="cartons" placeholder="Введіть кількість">
+
+    <label>Хімія:</label>
+    <input type="number" id="chemistry" placeholder="Введіть кількість">
+
+    <label>Ролики:</label>
+    <input type="number" id="rollers" placeholder="Введіть кількість">
+
+    <label>Базар:</label>
+    <input type="number" id="market" placeholder="Введіть кількість">
+
+    <label>Бокс:</label>
+    <input type="number" id="boxing" placeholder="Введіть кількість">
+
+    <button onclick="calculateProductivity()">Обчислити</button>
+
+    <div id="result"></div>
+
+    <script>
+        const standards = {
+            cartons: 150,
+            chemistry: 123,
+            rollers: 110,
+            market: 110,
+            boxing: 31
+        };
+
+        function calculateProductivity() {
+            const hours = parseFloat(document.getElementById('hoursWorked').value);
+            const cartons = parseInt(document.getElementById('cartons').value);
+            const chemistry = parseInt(document.getElementById('chemistry').value);
+            const rollers = parseInt(document.getElementById('rollers').value);
+            const market = parseInt(document.getElementById('market').value);
+            const boxing = parseInt(document.getElementById('boxing').value);
+            const resultDiv = document.getElementById('result');
+
+            try {
+                if (hours <= 0 || isNaN(hours)) {
+                    throw new Error("Кількість годин повинна бути більше 0.");
+                }
+
+                const calculate = (items, standard) => (items / hours) / standard * 100;
+
+                const totalProductivity = 
+                    calculate(cartons, standards.cartons) +
+                    calculate(chemistry, standards.chemistry) +
+                    calculate(rollers, standards.rollers) +
+                    calculate(market, standards.market) +
+                    calculate(boxing, standards.boxing);
+
+                resultDiv.innerText = `Загальна продуктивність: ${totalProductivity.toFixed(2)}%`;
+            } catch (error) {
+                resultDiv.innerText = "Помилка: " + error.message;
+            }
+        }
+    </script>
+
+</body>
+</html>
