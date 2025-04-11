@@ -2,7 +2,7 @@ body {
     background-color: #000;
     color: #0f0; /* зелений текст */
     font-family: Arial, sans-serif;
-    max-width: 250px;
+    max-width: 1000px;
     margin: 0px auto;
     padding: 20px;
 }
