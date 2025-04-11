@@ -5,6 +5,7 @@ body {
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
+    font-size: 16px; /* Default font size for body text */
 }
 
 input,
@@ -16,6 +17,7 @@ button {
     color: #0f0;
     border: none;
     border-radius: 5px;
+    font-size: 14px; /* Font size for input and button */
 }
 
 input::placeholder {
@@ -32,17 +34,20 @@ button:hover {
     font-weight: bold;
     margin-top: 15px;
     color: rgb(255, 0, 0);
+    font-size: 18px; /* Larger font for result */
 }
 
 label {
     margin-top: 10px;
     display: block;
+    font-size: 14px; /* Font size for labels */
 }
 
 .info {
     padding: 10px;
     margin: 5px 0;
     width: 75px;
+    font-size: 12px; /* Smaller font size for info boxes */
 }
 
 /* Sidebar styles */
@@ -58,6 +63,7 @@ label {
     transition: left 0.3s;
     padding: 1rem;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    font-size: 14px; /* Font size for sidebar content */
 }
 
 .sidebar.open {
