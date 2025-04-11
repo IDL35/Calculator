@@ -3,11 +3,12 @@ body {
     color: #0f0; /* зелений текст */
     font-family: Arial, sans-serif;
     max-width: 1000px;
-    margin: 0px auto;
+    margin: 0 auto;
     padding: 20px;
 }
 
-input, button {
+input,
+button {
     padding: 10px;
     margin: 5px 0;
     width: 100%;
@@ -43,6 +44,8 @@ label {
     margin: 5px 0;
     width: 75px;
 }
+
+/* Sidebar styles */
 .sidebar {
     position: fixed;
     top: 0;
@@ -56,37 +59,30 @@ label {
     padding: 1rem;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 }
-.close-btn {
-    background: none;
-    color: #0f0;
-    font-size: 18px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .sidebar.open {
+
+.sidebar.open {
     left: 0;
-  }
-  
-  .sidebar .close-btn {
+}
+
+.sidebar .close-btn {
     background: none;
     color: #0f0;
     border: none;
     font-size: 1.5rem;
     float: right;
     cursor: pointer;
-  }
-  
-  .sidebar ul {
+}
+
+.sidebar ul {
     list-style: none;
     padding: 0;
-  }
-  
-  .sidebar ul li {
+}
+
+.sidebar ul li {
     margin: 1rem 0;
-  }
-  
-  .sidebar ul li button {
+}
+
+.sidebar ul li button {
     background: none;
     color: #0f0;
     border: none;
@@ -94,8 +90,19 @@ label {
     cursor: pointer;
     text-align: left;
     width: 100%;
-  }
-  
-  .sidebar ul li button:hover {
+}
+
+.sidebar ul li button:hover {
     text-decoration: underline;
-  }
+}
+
+/* Responsive tweak (optional) */
+@media (max-width: 600px) {
+    .sidebar {
+        width: 100%;
+    }
+
+    .info {
+        width: 100%;
+    }
+}
