@@ -2,13 +2,14 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Калькулятор Продуктивності</title>
+    <title>ID Logistics</title>
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGxVJrVD_vOmHkOuCdoboRThlbh_GBDyp0Fk8MiCUpQYf67N9RBGNnhnrEwbh6nS6cSpw&usqp=CAU" type="image/x-icon">
     <style>
         body {
             background-color: #000;
             color: #0f0; /* зелений текст */
             font-family: Arial, sans-serif;
-            max-width: 600px;
+            max-width: 250px;
             margin: 40px auto;
             padding: 20px;
         }
@@ -17,8 +18,8 @@
             padding: 10px;
             margin: 5px 0;
             width: 100%;
-            background-color: #333; /* сірий фон */
-            color: #0f0; /* зелений текст */
+            background-color: #333;
+            color: #0f0;
             border: none;
             border-radius: 5px;
         }
@@ -36,7 +37,7 @@
         #result {
             font-weight: bold;
             margin-top: 15px;
-            color: #0f0;
+            color: rgb(255, 0, 0);
         }
 
         label {
@@ -47,22 +48,21 @@
 </head>
 <body>
 
-    <h2>Калькулятор Продуктивності</h2>
+    <h2>Калькулятор : ID Logistics</h2>
 
     <label>Години роботи:</label>
     <input type="number" id="hoursWorked" step="0.1" placeholder="Введіть години">
 
-    <label>Картон:</label>
+    <label>Споживка:</label>
     <input type="number" id="cartons" placeholder="Введіть кількість">
 
     <label>Хімія:</label>
     <input type="number" id="chemistry" placeholder="Введіть кількість">
-
-    <label>Ролики:</label>
-    <input type="number" id="rollers" placeholder="Введіть кількість">
-
     <label>Базар:</label>
     <input type="number" id="market" placeholder="Введіть кількість">
+    
+    <label>Ролики:</label>
+    <input type="number" id="rollers" placeholder="Введіть кількість">
 
     <label>Бокс:</label>
     <input type="number" id="boxing" placeholder="Введіть кількість">
