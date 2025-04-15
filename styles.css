@@ -122,7 +122,7 @@ label {
   transition: transform 0.3s ease-in-out;
 }
 .gallery img:hover {
-  transform: scale(1.8);
+  transform: scale(1.4);
 }
 .buttonsA {
   margin-top: 10px;
