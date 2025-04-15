@@ -1,92 +1,41 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <title>ID Logistics</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGxVJrVD_vOmHkOuCdoboRThlbh_GBDyp0Fk8MiCUpQYf67N9RBGNnhnrEwbh6nS6cSpw&usqp=CAU" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Меню</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      color: #0f0;
+      background-color: #000;
+    }
+    .menu-button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      font-size: 18px;
+      text-align: center;
+      background-color: #333;
+      color: #0f0;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    .menu-button:hover {
+      background-color: #555;
+    }
+  </style>
 </head>
 <body>
-    
-    <div id="sidebar" class="sidebar">
-        <button id="closeMenu" class="close-btn">✖</button><a href="Druc.html" class="home-button">Друкарка</a>
-        <ul>
-          <li>Як Вписувати Години</li>
-          <li>Якшо Ви Робили</li>
-          <li>12 Вписуйте 11</li>
-          <li>10 Вписуйте 9</li>
-          <li>8 Вписуйте 7,5</li>
-          <li>4 Вписуйте 4</li>
-        </ul>
-      </div>
-    <h2>Калькулятор : ID Logistics</h2><button id="openMenu" class="info">Info ?</button>
 
-    <label>Години роботи:</label>
-    <input type="number" id="hoursWorked" step="0.1" placeholder="Введіть години">
+  <a href="Cal.html" class="menu-button">Калькулятор Видайности</a>
+  <a href="Dey Cal.html" class="menu-button">Калькулятор Тижня</a>
+  <a href="Druc.html" class="menu-button">Друкарки</a>
+  <a href="page4.html" class="menu-button">В Розробци</a>
 
-    <label>Споживка:</label>
-    <input type="number" id="cartons" placeholder="Введіть кількість">
-
-    <label>Хімія:</label>
-    <input type="number" id="chemistry" placeholder="Введіть кількість">
-    <label>Базар:</label>
-    <input type="number" id="market" placeholder="Введіть кількість">
-    
-    <label>Ролики:</label>
-    <input type="number" id="rollers" placeholder="Введіть кількість">
-
-    <label>Бокс:</label>
-    <input type="number" id="boxing" placeholder="Введіть кількість">
-
-    <button onclick="calculateProductivity()">Обчислити</button>
-
-    <div id="result"></div>
-    <script src="script.js"></script>
-    <script>
-        const standards = {
-            cartons: 150,
-            chemistry: 123,
-            rollers: 110,
-            market: 110,
-            boxing: 31
-        };
-
-        function calculateProductivity() {
-            const hours = parseFloat(document.getElementById('hoursWorked').value);
-            const cartons = parseInt(document.getElementById('cartons').value);
-            const chemistry = parseInt(document.getElementById('chemistry').value);
-            const rollers = parseInt(document.getElementById('rollers').value);
-            const market = parseInt(document.getElementById('market').value);
-            const boxing = parseInt(document.getElementById('boxing').value);
-            const resultDiv = document.getElementById('result');
-
-            try {
-                if (hours <= 0 || isNaN(hours)) {
-                    throw new Error("Кількість годин повинна бути більше 0.");
-                }
-
-                const calculate = (items, standard) => (items / hours) / standard * 100;
-
-                const totalProductivity = 
-                    calculate(cartons, standards.cartons) +
-                    calculate(chemistry, standards.chemistry) +
-                    calculate(rollers, standards.rollers) +
-                    calculate(market, standards.market) +
-                    calculate(boxing, standards.boxing);
-
-                    let message = `Загальна продуктивність: ${totalProductivity.toFixed(2)}%`;
-
-                    if (totalProductivity < 80) {
-                    message += "\n⚠️ Хаха Лох!";
-                    } else if (totalProductivity > 140) {
-                    message += "\n⚠️ Насосав!";
-                    }
-
-                    resultDiv.innerText = message;
-                } catch (error) {
-                resultDiv.innerText = "Помилка: " + error.message;
-            }
-        }
-    </script>
 </body>
 </html>

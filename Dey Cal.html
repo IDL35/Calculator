@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор Видайності</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 15px;
+      background-color: #000000;
+      color: #00ff41;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .day-input {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+    }
+
+    label {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    input[type="number"] {
+      flex: 1;
+      padding: 10px;
+      color:#0f0;
+      background-color: #333;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      background-color: #333;
+      color: #0f0;
+      border: none;
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      color: #ff0000;
+    }
+  </style>
+</head>
+<body>
+  <h2>Тижнева Видайність (%)</h2>
+  <form id="calcForm">
+    <div class="day-input"><label>Пн:</label> <input type="number" step="any" id="mon"></div>
+    <div class="day-input"><label>Вт:</label> <input type="number" step="any" id="tue"></div>
+    <div class="day-input"><label>Ср:</label> <input type="number" step="any" id="wed"></div>
+    <div class="day-input"><label>Чт:</label> <input type="number" step="any" id="thu"></div>
+    <div class="day-input"><label>Пт:</label> <input type="number" step="any" id="fri"></div>
+    <div class="day-input"><label>Сб:</label> <input type="number" step="any" id="sat"></div>
+    <div class="day-input"><label>Нд:</label> <input type="number" step="any" id="sun"></div>
+
+    <button type="button" onclick="calculate()">Обчислити</button>
+  </form>
+
+  <div id="result">Сума: 0% | Середнє: 0%</div>
+
+  <script>
+    function calculate() {
+      const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+      let total = 0;
+      let count = 0;
+
+      days.forEach(day => {
+        const value = parseFloat(document.getElementById(day).value);
+        if (!isNaN(value)) {
+          total += value;
+          count++;
+        }
+      });
+
+      const average = count > 0 ? (total / count).toFixed(2) : 0;
+
+      document.getElementById('result').innerText = 
+        'Сума: ' + total.toFixed(2) + '% | Середнє: ' + average + '%';
+    }
+  </script>
+</body>
+</html>
