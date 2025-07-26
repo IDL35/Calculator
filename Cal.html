@@ -83,8 +83,6 @@ margin: 0 auto;
 <div><button onclick="calculateProductivity()">Обчислити</button></div>
     
 <div id="result"></div>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5258299007350718"
-     crossorigin="anonymous"></script>
 <script>
     const standards = {
         cartons: 150,
@@ -106,31 +104,60 @@ margin: 0 auto;
         const resultDiv = document.getElementById('result');
 
         try {
-        if (hours <= 0 || isNaN(hours)) {
-        throw new Error("Кількість годин повинна бути більше 0.");
-        }
+            if (hours <= 0 || isNaN(hours)) {
+                throw new Error("Кількість годин повинна бути більше 0.");
+            }
 
-        const calculate = (items, standard) => (items / hours) / standard * 100;
+            const calculate = (items, standard) => (items / hours) / standard * 100;
 
-        const totalProductivity =
-            calculate(cartons, standards.cartons) +
-            calculate(chemistry, standards.chemistry) +
-            calculate(rollers, standards.rollers) +
-            calculate(market, standards.market) +
-            calculate(boxing, standards.boxing);
+            const totalProductivity =
+                calculate(cartons, standards.cartons) +
+                calculate(chemistry, standards.chemistry) +
+                calculate(rollers, standards.rollers) +
+                calculate(market, standards.market) +
+                calculate(boxing, standards.boxing);
 
             const rounded = totalProductivity.toFixed(2);
             let color = '#ff0000';
+            let comment = "";
 
+            const productivity = totalProductivity;
 
-        resultDiv.style.color = color;
-        resultDiv.innerText = `Загальна продуктивність: ${rounded}%`;
+            if (productivity < 60) {
+                comment = "як тебе ше не звільнили бля";
+            } else if (productivity < 80) {
+                comment = "Хаха Лох";
+            } else if (productivity < 99) {
+                comment = " ";
+            } else if (productivity < 100) {
+                comment = "Бля 1 Процента не хватило Лох";
+            } else if (productivity < 105) {
+                comment = " ";
+            } else if (productivity < 110) {
+                comment = " ";
+            } else if (productivity < 115) {
+                comment = " ";
+            } else if (productivity < 120) {
+                comment = " ";
+            } else if (productivity < 125) {
+                comment = " ";
+            } else if (productivity < 130) {
+                comment = " ";
+            } else if (productivity < 135) {
+                comment = " ";
+            } else if (productivity < 140) {
+                comment = " ";
+            } else {
+                comment = "Насосав";
+            }
+
+            resultDiv.style.color = color;
+            resultDiv.innerText = `Загальна продуктивність: ${rounded}%\n${comment}`;
         } catch (error) {
             resultDiv.style.color = '#ff0000';
             resultDiv.innerText = "Помилка: " + error.message;
         }
-    }   
-    </script>
-
+    }  
+</script>
 </body>
 </html>
