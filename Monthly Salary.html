@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Місячний Оклад</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 5px;
+      background-color: #000;
+      color: #0f0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 5px 0;
+      background-color: #111;
+      font-size: 10px;
+    }
+    th, td {
+      border: 1px solid #222;
+      padding: 2px;
+      text-align: center;
+    }
+    input {
+      width: 70px;
+      background-color: #000;
+      color: #0f0;
+      border: 1px solid #222;
+      padding: 1px 3px;
+      font-size: 10px;
+    }
+    button {
+      margin: 2px 2px;
+      background-color: #111;
+      color: #0f0;
+      border: none;
+      padding: 3px 6px;
+      cursor: pointer;
+      font-size: 10px;
+    }
+    .summary {
+      margin-top: 8px;
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="font-size: 12px; margin: 0 0 5px 0;">Години</h2>
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>Дата</th>
+        <th>Год</th>
+        <th>%</th>
+        <th>X</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div>
+    <button onclick="addRow()">Add+</button>
+    <button onclick="clearData()">Delete</button>
+    <button onclick="exportToExcel()">Expirt⬇️</button>
+  </div>
+  <div class="summary">
+    <div id="monthlySummary"></div>
+    <div id="weeklySummary"></div>
+    <div id="totalMoney"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    const tableBody = document.querySelector("#dataTable tbody");
+    let cachedWeeks = {};
+    let cachedTotalMoney = 0;
+
+    function saveData() {
+      const rows = Array.from(tableBody.rows).map(row => ({
+        date: row.cells[0].querySelector('input').value,
+        hours: parseFloat(row.cells[1].querySelector('input').value) || 0,
+        percent: parseFloat(row.cells[2].querySelector('input').value) || 0
+      }));
+      localStorage.setItem("workData", JSON.stringify(rows));
+      calculateSummaries();
+    }
+
+    function loadData() {
+      const data = JSON.parse(localStorage.getItem("workData") || "[]");
+      data.forEach(item => addRow(item.date, item.hours, item.percent));
+    }
+
+    function addRow(date = '', hours = '', percent = '') {
+      const row = tableBody.insertRow();
+      row.innerHTML = `
+        <td><input type="date" value="${date}" onchange="saveData()"></td>
+        <td><input type="number" value="${hours}" onchange="saveData()"></td>
+        <td><input type="number" value="${percent}" onchange="saveData()"></td>
+        <td><button onclick="deleteRow(this)">x</button></td>
+      `;
+      saveData();
+    }
+
+    function deleteRow(button) {
+      const row = button.closest('tr');
+      tableBody.removeChild(row);
+      saveData();
+    }
+
+    function clearData() {
+      if (confirm("Очистити всі дані?")) {
+        localStorage.removeItem("workData");
+        tableBody.innerHTML = "";
+        calculateSummaries();
+      }
+    }
+
+    function getRate(percent) {
+      if (percent < 100) return 30.5;
+      if (percent === 100) return 32.7;
+      if (percent === 105) return 34.7;
+      if (percent === 110) return 36.7;
+      if (percent === 115) return 38.7;
+      if (percent === 120) return 40.7;
+      if (percent === 125) return 42.7;
+      if (percent === 130) return 44.7;
+      if (percent === 135) return 46.7;
+      if (percent === 140) return 48.7;
+      return 0;
+    }
+
+    function calculateSummaries() {
+      const data = JSON.parse(localStorage.getItem("workData") || "[]");
+      if (!data.length) {
+        document.getElementById("monthlySummary").textContent = "Немає даних.";
+        document.getElementById("weeklySummary").textContent = "";
+        document.getElementById("totalMoney").textContent = "";
+        return;
+      }
+
+      let totalHours = 0;
+      let totalMoney = 0;
+      const weeks = {};
+
+      data.forEach(entry => {
+        const date = new Date(entry.date);
+        if (isNaN(date)) return;
+        const week = getWeekOfMonth(date);
+        if (!weeks[week]) weeks[week] = [];
+        weeks[week].push(entry);
+        totalHours += entry.hours;
+      });
+
+      cachedWeeks = weeks;
+
+      document.getElementById("monthlySummary").textContent = `Всього: ${totalHours.toFixed(1)} год`;
+
+      let weeklyText = '';
+      for (const [week, entries] of Object.entries(weeks)) {
+        const hours = entries.reduce((sum, e) => sum + e.hours, 0);
+        const avgPercent = entries.reduce((sum, e) => sum + e.percent, 0) / entries.length;
+        const rate = getRate(Math.round(avgPercent));
+        const weekMoney = rate * hours;
+        totalMoney += weekMoney;
+        weeklyText += `Т${week}: ${hours.toFixed(1)}г / ${avgPercent.toFixed(0)}% = ${weekMoney.toFixed(2)} zł<br>`;
+      }
+      document.getElementById("weeklySummary").innerHTML = weeklyText;
+      document.getElementById("totalMoney").textContent = `Загалом: ${totalMoney.toFixed(2)} zł`;
+      cachedTotalMoney = totalMoney;
+    }
+
+    function getWeekOfMonth(date) {
+      const start = new Date(date.getFullYear(), date.getMonth(), 1);
+      const day = date.getDate();
+      const offset = start.getDay() === 0 ? 6 : start.getDay() - 1;
+      return Math.floor((day + offset - 1) / 7) + 1;
+    }
+
+    function exportToExcel() {
+      const data = JSON.parse(localStorage.getItem("workData") || "[]");
+      if (!data.length) return alert("Немає даних.");
+
+      const worksheetData = [["Дата", "Години", "%", "Ставка", "Сума (zł)"]];
+      data.forEach(row => {
+        const rate = getRate(Math.round(row.percent));
+        worksheetData.push([row.date, row.hours, row.percent, rate, (rate * row.hours).toFixed(2)]);
+      });
+
+      worksheetData.push([]);
+      worksheetData.push(["Тиждень", "Години", "%", "Ставка", "Сума (zł)"]);
+
+      for (const [week, entries] of Object.entries(cachedWeeks)) {
+        const hours = entries.reduce((sum, e) => sum + e.hours, 0);
+        const avgPercent = entries.reduce((sum, e) => sum + e.percent, 0) / entries.length;
+        const rate = getRate(Math.round(avgPercent));
+        const weekMoney = rate * hours;
+        worksheetData.push(["Т" + week, hours.toFixed(1), avgPercent.toFixed(0), rate, weekMoney.toFixed(2)]);
+      }
+
+      worksheetData.push([]);
+      worksheetData.push(["Загалом", "", "", "", cachedTotalMoney.toFixed(2) + " zł"]);
+
+      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Звіт");
+      XLSX.writeFile(workbook, "повний_звіт.xlsx");
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
